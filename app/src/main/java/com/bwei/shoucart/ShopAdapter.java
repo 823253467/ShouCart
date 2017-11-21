@@ -181,10 +181,6 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> {
         });
 
 
-
-
-
-
         holder.item_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
