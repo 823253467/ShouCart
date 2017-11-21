@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -13,7 +14,7 @@ import com.bwei.shoucart.bean.ShopBean;
 import com.bwei.shoucart.presenter.Mypresenter;
 import com.bwei.shoucart.view.MyView;
 
-public class MainActivity extends AppCompatActivity implements MyView, CompoundButton.OnCheckedChangeListener {
+public class MainActivity extends AppCompatActivity implements MyView, View.OnClickListener {
 
     private Mypresenter mypresenter;
     private ShopAdapter adapter;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements MyView, CompoundB
         text_shangpingeshu = (TextView) findViewById(R.id.text_shangpingeshu);
         text_zongjia = (TextView) findViewById(R.id.text_zongjia);
         checkbox_quanxuan = (CheckBox) findViewById(R.id.checkbox_quanxuan);
-        checkbox_quanxuan.setOnCheckedChangeListener(this);
+        checkbox_quanxuan.setOnClickListener(this);
         mypresenter = new Mypresenter(this);
         mypresenter.showData();
         adapter = new ShopAdapter(this);
@@ -65,10 +66,12 @@ public class MainActivity extends AppCompatActivity implements MyView, CompoundB
         super.onDestroy();
         mypresenter.datach();
     }
-    //checkbox全选事件
+    //点击事件全选事件
     @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+    public void onClick(View view) {
         adapter.selectAll(checkbox_quanxuan.isChecked());
     }
+
+
 }
 

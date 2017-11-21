@@ -64,7 +64,6 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> {
         notifyDataSetChanged();
     }
 
-
     /**
      * 设置数据源， 控制显示商家
      * @param list
