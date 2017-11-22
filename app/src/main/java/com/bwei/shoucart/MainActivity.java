@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerviewid);
         text_qujieshuan = (TextView) findViewById(R.id.text_qujieshuan);
         text_shangpingeshu = (TextView) findViewById(R.id.text_shangpingeshu);
@@ -47,6 +48,13 @@ public class MainActivity extends AppCompatActivity implements MyView, View.OnCl
                 checkbox_quanxuan.setChecked(allCheck);
                 text_shangpingeshu.setText(num);
                 text_zongjia.setText(total);
+            }
+        });
+        //条目点击事件
+        adapter.setOnItemClickListener(new ShopAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(MainActivity.this,position+"",Toast.LENGTH_SHORT).show();
             }
         });
     }

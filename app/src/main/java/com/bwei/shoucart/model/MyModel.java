@@ -9,6 +9,7 @@ import com.bwei.shoucart.okhttp.OkhttpUtils;
  */
 public class MyModel {
     public void getData(final IModel iModel){
+
         OkhttpUtils.getInstance().asy(null,"http://120.27.23.105/product/getCarts?uid=100", new AbstractUiCallBack<ShopBean>() {
             @Override
             public void success(ShopBean bean) {

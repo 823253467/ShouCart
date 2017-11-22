@@ -9,7 +9,7 @@ package com.bwei.shoucart;
         import android.widget.ImageView;
         import android.widget.LinearLayout;
         import android.widget.TextView;
-
+        import android.widget.Toast;
 
         import com.bumptech.glide.Glide;
         import com.bwei.shoucart.bean.ShopBean;
@@ -18,13 +18,11 @@ package com.bwei.shoucart;
         import java.util.HashMap;
         import java.util.List;
         import java.util.Map;
-
-
 /**
  * Created by muhanxi on 17/11/21.
  */
 
-public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> {
+public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> implements View.OnClickListener {
 
     private Context context;
 
@@ -35,10 +33,6 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> {
     public ShopAdapter(Context context) {
         this.context = context;
     }
-
-
-
-
     /**
      * 添加数据 并更新显示
      * @param bean
@@ -77,6 +71,10 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> {
                     list.get(i).setIsFirst(2);
                 }else{
                     list.get(i).setIsFirst(1);
+                    if(list.get(i).isItemSelected()){
+                        list.get(i).setShopSelected(list.get(i).isItemSelected());
+                    }
+
                 }
             }
 
@@ -89,13 +87,15 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> {
 
 
         View view = View.inflate(context, R.layout.adapter_layout, null);
+        view.setOnClickListener(this);
         return new IViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ShopAdapter.IViewHolder holder, final int position) {
 
-
+        //将position保存在itemView的Tag中，以便点击时进行获取
+        holder.itemView.setTag(position);
         // 显示商品图片
 
         if(list.get(position).getIsFirst() == 1){
@@ -162,7 +162,6 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> {
 
                 list.get(position).setItemSelected(holder.item_checkbox.isChecked());
 
-
                 for(int i=0;i<list.size();i++){
                     for (int j=0;j<list.size();j++){
                         if(list.get(i).getSellerid() == list.get(j).getSellerid() && !list.get(j).isItemSelected()){
@@ -179,8 +178,6 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> {
 
             }
         });
-
-
         holder.item_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -231,7 +228,6 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> {
 
         int totalNum = 0 ;
         float totalMoney =  0.0f;
-
         boolean allCheck =true;
         for(int i=0;i<list.size();i++){
             if(list.get(i).isItemSelected()){
@@ -241,27 +237,28 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> {
                 allCheck = false;
             }
         }
-
         listener.setTotal(totalMoney+"",totalNum+"",allCheck);
     }
-
-
     public void selectAll(boolean check){
 
         for(int i=0;i<list.size();i++){
             list.get(i).setShopSelected(check);
             list.get(i).setItemSelected(check);
-
         }
         notifyDataSetChanged();
-
         sum(list);
-
+    }
+    //条目点击事件
+    @Override
+    public void onClick(View view) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            mOnItemClickListener.onItemClick(view,(int)view.getTag());
+        }
     }
 
 
     static class IViewHolder extends RecyclerView.ViewHolder {
-
         private final CheckBox shop_checkbox;
         private final TextView tv_item_shopcart_shopname;
         private final ImageView item_del;
@@ -293,6 +290,18 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> {
     }
     interface UpdateUiListener {
         public void setTotal(String total,String num,boolean allCheck);
+
+    }
+
+
+
+    private OnItemClickListener mOnItemClickListener = null;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+    //条目点击 interface
+    public static interface OnItemClickListener {
+        void onItemClick(View view , int position);
     }
 
 
