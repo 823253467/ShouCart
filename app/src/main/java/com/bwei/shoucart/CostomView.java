@@ -69,6 +69,7 @@ public class CostomView extends LinearLayout {
         });
 
 
+
         add.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

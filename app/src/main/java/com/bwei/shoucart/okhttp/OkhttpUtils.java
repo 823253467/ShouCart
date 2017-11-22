@@ -41,6 +41,8 @@ public class OkhttpUtils {
                     .connectTimeout(20,TimeUnit.SECONDS)
                     //添加拦截器
                     .addInterceptor(new LoggingInterceptor())
+                    .addInterceptor(new UserAgentIntercepter())
+
                     .build();
         }
         return okhttpUtils ;

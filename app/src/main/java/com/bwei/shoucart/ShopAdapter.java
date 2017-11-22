@@ -237,7 +237,7 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.IViewHolder> i
                 allCheck = false;
             }
         }
-        listener.setTotal(totalMoney+"",totalNum+"",allCheck);
+        listener.setTotal(totalMoney+"",totalNum+"",list.size() == 0 ? false : allCheck);
     }
     public void selectAll(boolean check){
 
